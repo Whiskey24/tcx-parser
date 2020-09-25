@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TrainingCenterDatabase
+  xsi:schemaLocation="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd"
+  xmlns:ns5="http://www.garmin.com/xmlschemas/ActivityGoals/v1"
+  xmlns:ns3="http://www.garmin.com/xmlschemas/ActivityExtension/v2"
+  xmlns:ns2="http://www.garmin.com/xmlschemas/UserProfile/v2"
+  xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns4="http://www.garmin.com/xmlschemas/ProfileExtension/v1">
+  <Activities>
+    <Activity Sport="Running">
+      <Id>2020-09-23T15:31:31.000Z</Id>
+      <Lap StartTime="2020-09-23T15:31:31.000Z">
+        <TotalTimeSeconds>340.0</TotalTimeSeconds>
+        <DistanceMeters>1000.0</DistanceMeters>
+        <MaximumSpeed>3.2839999198913574</MaximumSpeed>
+        <Calories>70</Calories>
+        <AverageHeartRateBpm>
+          <Value>141</Value>
+        </AverageHeartRateBpm>
+        <MaximumHeartRateBpm>
+          <Value>151</Value>
+        </MaximumHeartRateBpm>
+        <Intensity>Active</Intensity>
+        <TriggerMethod>Manual</TriggerMethod>
+        <Track>
+          <Trackpoint>
+            <Time>2020-09-23T15:31:31.000Z</Time>
+            <Position>
+              <LatitudeDegrees>52.00227594003081</LatitudeDegrees>
+              <LongitudeDegrees>4.361473526805639</LongitudeDegrees>
+            </Position>
+            <AltitudeMeters>0.800000011920929</AltitudeMeters>
+            <DistanceMeters>0.0</DistanceMeters>
+            <HeartRateBpm>
+              <Value>74</Value>
+            </HeartRateBpm>
+            <Extensions>
+              <ns3:TPX>
+                <ns3:Speed>0.9980000257492065</ns3:Speed>
+                <ns3:RunCadence>54</ns3:RunCadence>
+              </ns3:TPX>
+            </Extensions>
+          </Trackpoint>
+        </Track>
+      </Lap>
+      <Creator xsi:type="Device_t">
+        <Name>fenix 5 Plus</Name>
+        <UnitId>3321532153</UnitId>
+        <ProductID>3110</ProductID>
+        <Version>
+          <VersionMajor>13</VersionMajor>
+          <VersionMinor>0</VersionMinor>
+          <BuildMajor>0</BuildMajor>
+          <BuildMinor>0</BuildMinor>
+        </Version>
+      </Creator>
+    </Activity>
+  </Activities>
+  <Author xsi:type="Application_t">
+    <Name>Connect Api</Name>
+    <Build>
+      <Version>
+        <VersionMajor>0</VersionMajor>
+        <VersionMinor>0</VersionMinor>
+        <BuildMajor>0</BuildMajor>
+        <BuildMinor>0</BuildMinor>
+      </Version>
+    </Build>
+    <LangID>en</LangID>
+    <PartNumber>006-D2449-00</PartNumber>
+  </Author>
+</TrainingCenterDatabase>

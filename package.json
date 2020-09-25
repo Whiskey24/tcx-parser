@@ -1,0 +1,18 @@
+{
+  "name": "tcx-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "dependencies": {
+    "class-transformer": "^0.3.1",
+    "fast-xml-parser": "^3.17.4"
+  },
+  "devDependencies": {
+    "@types/node": "^14.11.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
