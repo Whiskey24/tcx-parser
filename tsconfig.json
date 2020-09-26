@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "target": "es6",
+        "module": "umd",
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noUnusedLocals": true,
@@ -9,7 +10,7 @@
         "declaration": true,
         "declarationMap": true,
         "moduleResolution": "node",
-        "outDir": "./lib",
+        "outDir": "./dist",
         "lib": [
             "dom",
             "es6"

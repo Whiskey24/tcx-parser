@@ -1,4 +1,3 @@
-import { stringify } from 'querystring';
 import { Lap } from './lap';
 
 export class Activity {

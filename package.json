@@ -1,8 +1,9 @@
 {
   "name": "tcx-parser",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "lib/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "dependencies": {
     "class-transformer": "^0.3.1",
     "fast-xml-parser": "^3.17.4"
@@ -11,6 +12,8 @@
     "@types/node": "^14.11.1"
   },
   "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

@@ -36,7 +36,7 @@ export class Trackpoint {
         // only expect this to go one level deep (according to the xsd)
         if (this.Extensions) {
             Object.entries(this.Extensions).forEach(([rootkey, rootvalue]) => {
-                if (typeof (rootvalue) === 'object') {
+                if (rootkey && typeof (rootvalue) === 'object') {
                     Object.entries(rootvalue).forEach(([key, value]) => {
                         if (key.endsWith('Speed')) {
                             this.Speed = <number>value;
@@ -44,8 +44,9 @@ export class Trackpoint {
                             this.RunCadence = <number>value;
                         } else if (key.endsWith('Watts')) {
                             this.Watts = <number>value;
-                        } else {
+                        } else if (key != 'attr') {
                             console.error('Extensions node found for trackpoint, but no known properties detected');
+                            console.error(`key: ${key}, value: ${value}`);
                         }
                     });
                 }
@@ -60,7 +61,9 @@ export class Trackpoint {
         summary += `   Position: latitude=${this.Position.LatitudeDegrees} longtitude=${this.Position.LongitudeDegrees}\n`;
         summary += `   Altitude in m: ${this.AltitudeMeters}\n`;
         summary += `   Distance in m: ${this.DistanceMeters}\n`;
-        summary += `   Heartrate BPM: ${this.HeartRateBpm.Value}\n`;
+        if (this.HeartRateBpm) {
+            summary += `   Heartrate BPM: ${this.HeartRateBpm.Value}\n`;
+        }
         if (this.Speed) {
             summary += `   Speed: ${this.Speed}\n`
         }
@@ -75,7 +78,12 @@ export class Trackpoint {
 
     // for debugging purposes
     public oneLineSummary(): string {
-        return `${this.SequenceNr} time: ${this.Time} heartrate: ${this.HeartRateBpm.Value}`;
+        if (this.HeartRateBpm) {
+            return `${this.SequenceNr} time: ${this.Time} heartrate: ${this.HeartRateBpm.Value}`;
+        } else {
+            return `${this.SequenceNr} time: ${this.Time}`;
+        }
+
     }
 
 }

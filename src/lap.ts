@@ -28,6 +28,7 @@ export class Lap {
     public AvgSpeed: number;
     public AvgRunCadence: number;
     public MaxRunCadence: number;
+    public Steps: number;
     private Extensions: string;
     private attr: attr;
 
@@ -47,7 +48,7 @@ export class Lap {
         // only expect this to go one level deep (according to the xsd)
         if (this.Extensions) {
             Object.entries(this.Extensions).forEach(([rootkey, rootvalue]) => {
-                if (typeof (rootvalue) === 'object') {
+                if (rootkey && typeof (rootvalue) === 'object') {
                     Object.entries(rootvalue).forEach(([key, value]) => {
                         if (key.endsWith('AvgSpeed')) {
                             this.AvgSpeed = <number>value;
@@ -55,8 +56,23 @@ export class Lap {
                             this.AvgRunCadence = <number>value;
                         } else if (key.endsWith('MaxRunCadence')) {
                             this.MaxRunCadence = <number>value;
+                        } else if (key.endsWith('Steps')) {
+                            this.Steps = <number>value;
+                        } else if (typeof (value) === 'object') {
+                            Object.entries(value as Record<string, string | number>).forEach(([key2, value2]) => {
+                                if (key2.endsWith('AvgSpeed')) {
+                                    this.AvgSpeed = <number>value2;
+                                } else if (key2.endsWith('AvgRunCadence')) {
+                                    this.AvgRunCadence = <number>value2;
+                                } else if (key2.endsWith('MaxRunCadence')) {
+                                    this.MaxRunCadence = <number>value2;
+                                } else if (key2.endsWith('Steps')) {
+                                    this.Steps = <number>value2;
+                                }
+                            })
                         } else {
-                            console.error('Extensions node found for trackpoint, but no known properties detected');
+                            console.error('Extensions node found for lap, but no known properties detected');
+                            console.error(`key: ${key}, value: ${value}`);
                         }
                     });
                 }
@@ -71,7 +87,9 @@ export class Lap {
         summary += `   Distance in m: ${this.DistanceMeters}\n`;
         summary += `   Maximum Speed: ${this.MaximumSpeed}\n`;
         summary += `   Calories: ${this.Calories}\n`;
-        summary += `   Heartrate BPM: average=${this.AverageHeartRateBpm.Value} max=${this.MaximumHeartRateBpm.Value}\n`;
+        if (this.AverageHeartRateBpm && this.MaximumHeartRateBpm) {
+            summary += `   Heartrate BPM: average=${this.AverageHeartRateBpm.Value} max=${this.MaximumHeartRateBpm.Value}\n`;
+        }
         summary += `   Intensity: ${this.Intensity} \n`;
         summary += `   Trigger Method: ${this.TriggerMethod} \n`;
         summary += `   Track count: ${this.Tracks.length} \n`;
@@ -85,7 +103,10 @@ export class Lap {
             summary += `   Average Run Cadence: ${this.AvgRunCadence}\n`
         }
         if (this.MaxRunCadence) {
-            summary += `   max Run Cadence: ${this.MaxRunCadence}\n`
+            summary += `   Max Run Cadence: ${this.MaxRunCadence}\n`
+        }
+        if (this.Steps) {
+            summary += `   Steps: ${this.Steps}\n`
         }
         return summary;
     }
