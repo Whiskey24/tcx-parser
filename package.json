@@ -2,8 +2,8 @@
   "name": "tcx-parser",
   "version": "0.0.1",
   "description": "",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/trainingFile.js",
+  "types": "./dist/trainingFile.d.ts",
   "dependencies": {
     "class-transformer": "^0.3.1",
     "fast-xml-parser": "^3.17.4"

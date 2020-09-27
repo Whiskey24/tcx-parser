@@ -52,6 +52,13 @@ export class Parser {
      * @memberof Parser
      */
     public readFromFile(xmlFilePath: string): boolean {
+        this.trainingFile.loadedFrom = 'file';
+        if (xmlFilePath === undefined || xmlFilePath.length === 0) {
+            console.error(`Error, empty file parameter given`);
+            return false;
+        }
+        this.trainingFile.tcx_filename = xmlFilePath.replace(/^.*(\\|\/|\:)/, '');
+
         let xmlString: string = '';
         try {
             if (fs.existsSync(xmlFilePath)) {
@@ -81,6 +88,7 @@ export class Parser {
      * @memberof Parser
      */
     public readFromString(xmlString: string): boolean {
+        this.trainingFile.loadedFrom = 'string';
         if (!xmlString.startsWith('<?xml')) {
             console.error(`Error, provided string does not seem to be XML (starts with: ${xmlString.substr(0, 10)})`);
             return false;
@@ -144,6 +152,8 @@ export class Parser {
         for (var activityNode of activityArray) {
             // Activity section
             let activity = new Activity(activityCount);
+            activity = plainToClassFromExist(activity, activityNode);
+            activity.parseProperties();
 
             if (!activityNode.Lap) {
                 console.log('Error, cannot find Lap node in xml');
@@ -214,18 +224,20 @@ export class Parser {
                     // Track section End    
                 }
 
-                console.log(lap.summary());
+                // console.log(lap.summary());
                 activity.Laps.push(lap);
                 lapCount++;
                 // Lap section End
             }
 
-            activityCount++;
+            // console.log(activity.summary());
             activities.push(activity);
+            activityCount++;
             // Activity section End
         }
-        this.trainingFile.activities = activities;
 
+        this.trainingFile.activities = activities;
+        this.trainingFile.parseSuccessful = true;
         return true;
         // End of parseXmlString(xmlString: string)
     }
