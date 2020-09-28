@@ -1,4 +1,4 @@
-interface Position {
+export interface Position {
     LatitudeDegrees: number,
     LongitudeDegrees: number
 }
