@@ -34,7 +34,7 @@ export class TrainingFile {
         let timeValue: string[] = [];
         let bpmValue: number[] = [];
         let timeElapsedInMS: number[] = [];
-        let timeElapsedSinceEpoch: string[] = [];    // so you can plot hh:mm:ss for multiple series on different dates
+        let timeElapsedSinceEpoch: string[] = [];    // enable plot of hh:mm:ss for multiple series with different dates
         let positionLatitude: number[] = [];
         let positionLongitude: number[] = [];
         let altitudeMeters: number[] = [];
@@ -103,6 +103,75 @@ export class TrainingFile {
         }
     }
 
+
+    public summaryObject() {
+        let lapCount: number = 0;
+        let trackCount: number = 0;
+        let trackpointCount: number = 0;
+        let startTimeISO: string = '';
+        let totalTimeSeconds: number = 0;
+        let totalDistanceMeters: number = 0;
+        let maximumSpeed: number = 0;
+        let totalCalories: number = 0;
+        let maxHeartRateBpm: number = 0;
+        let maxRunCadence: number = 0;
+        let sportArray: string[] = [];
+        let avgHeartRateBpmSum: number = 0;
+        let avgHeartRateBpmCount: number = 0;
+
+        for (var activity of this.activities) {
+            lapCount += activity.Laps.length;
+            if (!sportArray.includes(activity.Sport)) {
+                sportArray.push(activity.Sport);
+            }
+            for (var lap of activity.Laps) {
+                if (startTimeISO === '' && lap.StartTime) {
+                    startTimeISO = lap.StartTime;
+                }
+                totalTimeSeconds += lap.TotalTimeSeconds;
+                totalDistanceMeters += lap.DistanceMeters;
+                totalCalories += lap.TotalTimeSeconds;
+                maximumSpeed = (lap.MaximumSpeed > maximumSpeed) ? lap.MaximumSpeed : maximumSpeed;
+                if (lap.MaximumHeartRateBpm && lap.MaximumHeartRateBpm.Value > maxHeartRateBpm) {
+                    maxHeartRateBpm = lap.MaximumHeartRateBpm.Value;
+                }
+                if (lap.MaxRunCadence && lap.MaxRunCadence > maxRunCadence) {
+                    maxRunCadence = lap.MaxRunCadence;
+                }
+
+                trackCount += lap.Tracks.length;
+                for (var track of lap.Tracks) {
+                    trackpointCount += track.Trackpoints.length;
+                    for (var trackpoint of track.Trackpoints) {
+                        if (trackpoint.HeartRateBpm) {
+                            avgHeartRateBpmSum += trackpoint.HeartRateBpm.Value;
+                            avgHeartRateBpmCount++;
+                        }
+                    }
+                }
+            }
+        }
+        let avgHeartRateBpm: number = avgHeartRateBpmCount > 0 ? avgHeartRateBpmSum / avgHeartRateBpmCount : 0;
+        let sport: string = sportArray.join();
+
+        return {
+            startTimeISO,
+            'activityCount': this.activities.length,
+            lapCount,
+            trackCount,
+            trackpointCount,
+            totalTimeSeconds,
+            totalDistanceMeters,
+            maximumSpeed,
+            totalCalories,
+            avgHeartRateBpm,
+            maxHeartRateBpm,
+            maxRunCadence,
+            sport,
+        }
+    }
+
+    // for testing purposes
     public summary(): string {
         let summary: string = '###### Trainingfile Summary ######\n';
 

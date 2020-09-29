@@ -88,7 +88,7 @@ export class Lap {
         summary += `   Maximum Speed: ${this.MaximumSpeed}\n`;
         summary += `   Calories: ${this.Calories}\n`;
         if (this.AverageHeartRateBpm && this.MaximumHeartRateBpm) {
-            summary += `   Heartrate BPM: average=${this.AverageHeartRateBpm.Value} max=${this.MaximumHeartRateBpm.Value}\n`;
+            summary += `   Heart Rate BPM: average=${this.AverageHeartRateBpm.Value} max=${this.MaximumHeartRateBpm.Value}\n`;
         }
         summary += `   Intensity: ${this.Intensity} \n`;
         summary += `   Trigger Method: ${this.TriggerMethod} \n`;

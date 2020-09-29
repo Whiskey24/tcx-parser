@@ -76,7 +76,7 @@ export class Trackpoint {
         return summary;
     }
 
-    // for debugging purposes
+    // for testing purposes
     public oneLineSummary(): string {
         if (this.HeartRateBpm) {
             return `${this.SequenceNr} time: ${this.Time} heartrate: ${this.HeartRateBpm.Value}`;
