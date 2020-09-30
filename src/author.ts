@@ -22,7 +22,7 @@ export class Author {
     }
 
     // for testing purposes
-    public summary(): string {
+    public summaryText(): string {
         let summary: string = `=== Author ===\n`;
         summary += `   Name: ${this.Name}\n`;
         summary += `   LangID: ${this.LangID}\n`;

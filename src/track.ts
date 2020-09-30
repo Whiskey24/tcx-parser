@@ -8,4 +8,10 @@ export class Track {
         this.SequenceNr = sequenceNr;
     }
 
+    // for testing purposes
+    public summaryText(): string {
+        let summary: string = `=== Track ${this.SequenceNr} ===\n`;
+        summary += `   Trackpoint count: ${this.Trackpoints.length}\n`
+        return summary;
+    }
 }

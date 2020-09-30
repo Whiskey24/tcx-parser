@@ -40,7 +40,7 @@ export class Activity {
         }
     }
 
-    public summary(): string {
+    public summaryText(): string {
         let summary: string = `=== Activity ${this.SequenceNr} ===\n`;
         summary += `   Id: ${this.Id}\n`;
         if (this.Sport) {

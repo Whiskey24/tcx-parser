@@ -81,7 +81,7 @@ export class Lap {
     }
 
     // for testing purposes
-    public summary(): string {
+    public summaryText(): string {
         let summary: string = `=== Lap ${this.SequenceNr} ===\n`;
         summary += `   Start Time: ${this.StartTime} (Unixtime in ms: ${this.UnixStartTimeMs})\n`;
         summary += `   Distance in m: ${this.DistanceMeters}\n`;

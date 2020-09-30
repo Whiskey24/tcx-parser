@@ -4,7 +4,7 @@ import { plainToClassFromExist } from 'class-transformer';
 import { Author } from './author';
 import { Track } from './track';
 import { Trackpoint } from './trackpoint';
-import { TrainingFile } from '.';
+import { TrainingFile } from './trainingFile';
 import { Lap } from './lap';
 import { Activity } from './activity';
 
@@ -89,7 +89,7 @@ export class Parser {
      */
     public readFromString(xmlString: string): boolean {
         this.trainingFile.loadedFrom = 'string';
-        if (!xmlString.startsWith('<?xml')) {
+        if (!xmlString || !xmlString.startsWith('<?xml')) {
             console.error(`Error, provided string does not seem to be XML (starts with: ${xmlString.substr(0, 10)})`);
             return false;
         }

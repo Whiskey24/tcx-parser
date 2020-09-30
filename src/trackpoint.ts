@@ -55,7 +55,7 @@ export class Trackpoint {
     }
 
     // for testing purposes
-    public summary(): string {
+    public summaryText(): string {
         let summary: string = `=== Trackpoint ${this.SequenceNr} ===\n`;
         summary += `   Time: ${this.Time} (Unixtime in ms: ${this.UnixTimeMs})\n`;
         summary += `   Position: latitude=${this.Position.LatitudeDegrees} longtitude=${this.Position.LongitudeDegrees}\n`;
@@ -77,7 +77,7 @@ export class Trackpoint {
     }
 
     // for testing purposes
-    public oneLineSummary(): string {
+    public oneLineSummaryText(): string {
         if (this.HeartRateBpm) {
             return `${this.SequenceNr} time: ${this.Time} heartrate: ${this.HeartRateBpm.Value}`;
         } else {

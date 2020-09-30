@@ -105,6 +105,7 @@ export class TrainingFile {
 
 
     public summaryObject() {
+        let activityCount: number = this.activities.length;
         let lapCount: number = 0;
         let trackCount: number = 0;
         let trackpointCount: number = 0;
@@ -118,11 +119,22 @@ export class TrainingFile {
         let sportArray: string[] = [];
         let avgHeartRateBpmSum: number = 0;
         let avgHeartRateBpmCount: number = 0;
+        let creatorName: string = '';       // assume only one device will create a single tcx file with activities
+        let creatorVersion: string = '';
+        let creatorBuild: string = '';
+        let authorName: string = this.author.Name;
+        let authorVersion: string = `${this.author.Build.Version.VersionMajor}.${this.author.Build.Version.VersionMinor}`;
+        let authorBuild: string = `${this.author.Build.Version.BuildMajor}.${this.author.Build.Version.BuildMinor}`;
 
         for (var activity of this.activities) {
             lapCount += activity.Laps.length;
             if (!sportArray.includes(activity.Sport)) {
                 sportArray.push(activity.Sport);
+            }
+            if (activity.Creator) {
+                creatorName = activity.Creator.Name;
+                creatorVersion = `${activity.Creator.Version.VersionMajor}.${activity.Creator.Version.VersionMinor}`;
+                creatorBuild = `${activity.Creator.Version.BuildMajor}.${activity.Creator.Version.BuildMinor}`;
             }
             for (var lap of activity.Laps) {
                 if (startTimeISO === '' && lap.StartTime) {
@@ -156,7 +168,7 @@ export class TrainingFile {
 
         return {
             startTimeISO,
-            'activityCount': this.activities.length,
+            activityCount,
             lapCount,
             trackCount,
             trackpointCount,
@@ -168,18 +180,24 @@ export class TrainingFile {
             maxHeartRateBpm,
             maxRunCadence,
             sport,
+            creatorName,
+            creatorVersion,
+            creatorBuild,
+            authorName,
+            authorVersion,
+            authorBuild
         }
     }
 
     // for testing purposes
-    public summary(): string {
+    public summaryText(): string {
         let summary: string = '###### Trainingfile Summary ######\n';
 
         for (var act of this.activities) {
-            summary += act.summary();
+            summary += act.summaryText();
         }
 
-        summary += this.author.summary();
+        summary += this.author.summaryText();
         return summary;
     }
 
