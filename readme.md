@@ -1,7 +1,7 @@
 ## tcx-parser
 
 ## Description
-A javascript library for parsing TCX (Training Center XML) files from Garmin devices into objects for Trainingfile, Activity, Lap, Track and Trackpoint. 
+A javascript library for parsing TCX (Training Center XML) files from Garmin devices into objects for TrainingFile, Activity, Lap, Track and Trackpoint. 
 
 Can take input from a file or string. 
 
@@ -62,19 +62,16 @@ You can access the objects directly, e.g. `trainingFile.Activities[0].Laps[0].Tr
 ### Time series data
 TrainingFile also provides a `timeSeriesData()` function that will return an object of arrays for the measured values per time point (i.e. trackpoint). Values are not rounded and stored as found in the XML data. The object contains these arrays (if corresponding data was found in the parsed XML data):
 
-
-
-
 | key                   | value type | description                                     | example                  |
 | --------------------- | ---------- | ----------------------------------------------- | ------------------------ |
 | timeValue             | string     | ISO Time value                                  | 2020-10-03T11:31:59.000Z |
 | bpmValue              | number     | heart beat value                                | 110                      |
-| timeElapsedInMS       | number     | time elasped in ms since first trackpoint       | 1000                     |
+| timeElapsedInMS       | number     | time elapsed in ms since first trackpoint       | 1000                     |
 | timeElapsedSinceEpoch | string     | time elapsed from epoch in ISO time format      | 1970-01-01T00:00:01.000Z |
 | positionLatitude      | number     | latitude of position                            | 51.99646954424679        |
 | positionLongitude     | number     | longitude of position                           | 4.372353488579392        |
-| altitudeMeters        | number     | altitude in meters as recorded                  | 0.20000000298023224      |
-| distanceMeters        | number     | distance in meters as recorded                  | 3.259999990463257        |
+| altitudeMeters        | number     | altitude in meters                              | 0.20000000298023224      |
+| distanceMeters        | number     | distance in meters                              | 3.259999990463257        |
 | speed                 | number     | speed in m/s                                    | 3.302999973297119        |
 | runCadence            | number     | cadence in steps per minute (spm)               | 166                      |
 | watts                 | number     | power in watts                                  | 138                      |
