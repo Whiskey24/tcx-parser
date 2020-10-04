@@ -21,7 +21,7 @@ import { TrainingFile } from "tcx-parser";
 let trainingFile = new TrainingFile();
 ```
 
-Then read in data from a file with `readFromFile(filepath)` or pass a string with `readFromString(xmlData)`. Each function which will return *true|if successful and *false|if not. If the data could not be parsed successfully an error message will be reported in the console.
+Then read in data from a file with `readFromFile(filepath)` or pass a string with `readFromString(xmlData)`. Each function which will return *true* if successful and *false* if not. If the data could not be parsed successfully an error message will be reported in the console.
 
 Each object has a function `summaryText()` that will return a string with a small summary for testing purposes. TrainingFile also provides a `summaryObject()` function that returns an object with key details.
 
@@ -45,13 +45,14 @@ if (trainingFile.readFromFile(filepath)) {
 ````
 
 ### Object data
-There are 5 classes in this order/hierarchy: 
-|TrainingFile of type `TrainingFile`
-  |Author of type `Author`
-  |Activities of type `Activity`
-    |Laps of type `Lap`
-       |Tracks of type `Track`
-          |Trackpoints of type `Trackpoint`
+There are 5 classes in this order/hierarchy:
+ 
+* TrainingFile of type `TrainingFile`
+  * Author of type `Author`
+  * Activities of type `Activity`
+    * Laps of type `Lap`
+       * Tracks of type `Track`
+          * Trackpoints of type `Trackpoint`
   
 
 So each TrainingFile contains one or more Activities, which contain one or more Laps, which contain more Tracks which contain one or (hopefully!) more Trackpoints.
