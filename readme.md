@@ -55,12 +55,12 @@ There are 5 classes in this order/hierarchy:
           * Trackpoints of type `Trackpoint`
   
 
-So each TrainingFile contains one or more Activities, which contain one or more Laps, which contain more Tracks which contain one or (hopefully!) more Trackpoints.
+So each TrainingFile contains one or more Activities, which contain one or more Laps, which contain one or more Tracks which contain one or (hopefully!) more Trackpoints.
 
 You can access the objects directly, e.g. `trainingFile.Activities[0].Laps[0].Tracks[0].Trackpoints[0]` will give you the first found trackpoint object.
 
 ### Time series data
-TrainingFile also provides a `timeSeriesData()` funtion that will return an object of arrays for the measured values per time point (i.e. trackpoint). Values are not rounded and stored as found in the XML data. The object contains these arrays (if corresponding data was found in the parsed XML data):
+TrainingFile also provides a `timeSeriesData()` function that will return an object of arrays for the measured values per time point (i.e. trackpoint). Values are not rounded and stored as found in the XML data. The object contains these arrays (if corresponding data was found in the parsed XML data):
 
 
 
