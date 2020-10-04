@@ -33,7 +33,6 @@ export class Trackpoint {
         }
 
         // iterate through the extensions properties
-        // only expect this to go one level deep (according to the xsd)
         if (this.Extensions) {
             Object.entries(this.Extensions).forEach(([rootkey, rootvalue]) => {
                 if (rootkey && typeof (rootvalue) === 'object') {

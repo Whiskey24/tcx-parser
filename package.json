@@ -1,7 +1,23 @@
 {
   "name": "tcx-parser",
   "version": "0.8.0",
-  "description": "",
+  "description": "Parser for TCX files (XML files with training/fitness data) usually created by Garmin and FitBit devices",
+  "keywords": [
+    "tcx",
+    "garmin",
+    "fitbit",
+    "fenix",
+    "forerunner",
+    "suunto",
+    "xml",
+    "heart rate"
+  ],
+  "bugs": "https://github.com/Whiskey24/tcx-parser/issues",
+  "homepage": "https://github.com/Whiskey24/tcx-parser",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Whiskey24/tcx-parser.git"
+  },
   "main": "./dist/trainingFile.js",
   "types": "./dist/trainingFile.d.ts",
   "dependencies": {

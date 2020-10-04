@@ -107,7 +107,7 @@ export class Parser {
      * @memberof Parser
      */
     private parseXmlString(xmlString: string): boolean {
-        if (FXP.validate(xmlString) !== true) { //optional (it'll return an object in case it's not valid)
+        if (FXP.validate(xmlString) !== true) {
             // we cannot parse the xml, return an error
             console.error('Error, cannot parse xml:');
             console.error(FXP.validate(xmlString));
@@ -115,11 +115,11 @@ export class Parser {
         }
 
         let parsedJson = FXP.parse(xmlString, this.options);
-
-        if (!parsedJson.TrainingCenterDatabase.Author) {
-            console.error('Error, cannot find Author node in xml');
-            return false;
-        }
+        // The Fitbit files I found missed the Author section, so make this optional
+        // if (!parsedJson.TrainingCenterDatabase.Author) {
+        //     console.error('Error, cannot find Author node in xml');
+        //     return false;
+        // }
         if (!parsedJson.TrainingCenterDatabase.Activities) {
             console.log('Error, cannot find Activities node in xml');
             return false;
@@ -129,12 +129,14 @@ export class Parser {
             return false;
         }
 
-        this.trainingFile.author = new Author();
-        try {
-            this.trainingFile.author = plainToClassFromExist(this.trainingFile.author, parsedJson.TrainingCenterDatabase.Author);
-        } catch (err) {
-            console.error(err);
-            return false;
+        this.trainingFile.Author = new Author();
+        if (parsedJson.TrainingCenterDatabase.Author) {
+            try {
+                this.trainingFile.Author = plainToClassFromExist(this.trainingFile.Author, parsedJson.TrainingCenterDatabase.Author);
+            } catch (err) {
+                console.error(err);
+                return false;
+            }
         }
 
         // Hierarchy: Activities > Activity > Lap > Track > Trackpoint
@@ -161,7 +163,6 @@ export class Parser {
             }
 
             // we can have one lap as an object or multiple as an array. Make sure we have an array
-            // let lapArray: string[] = [];
             let lapArray: Array<any> = [];
             if (Array.isArray(activityNode.Lap)) {
                 lapArray = activityNode.Lap;
@@ -175,10 +176,10 @@ export class Parser {
                 let lap = new Lap(lapCount);
                 lap = plainToClassFromExist(lap, lapNode);
                 lap.parseProperties();
-
                 if (!lapNode.Track) {
-                    console.log('Error, cannot find Track node in xml');
-                    return false;
+                    continue;       // tested one Suunto tcx file that had an empty first track node
+                    // console.log('Error, cannot find Track node in xml');
+                    // return false;
                 }
 
                 // we can have one track as an object or multiple as an array. Make sure we have an array
@@ -230,13 +231,25 @@ export class Parser {
                 // Lap section End
             }
 
+            // tested one Suunto tcx file that had an empty first track node, make sure we do have tracks with data
+            let lapWithTrackFound: boolean = false;
+            for (var lap of activity.Laps) {
+                if (lap.Tracks.length > 0) {
+                    lapWithTrackFound = true;
+                }
+            }
+            if (!lapWithTrackFound) {
+                console.log('Error, cannot find Track node in xml');
+                return false;
+            }
+
             // console.log(activity.summary());
             activities.push(activity);
             activityCount++;
             // Activity section End
         }
 
-        this.trainingFile.activities = activities;
+        this.trainingFile.Activities = activities;
         this.trainingFile.parseSuccessful = true;
         return true;
         // End of parseXmlString(xmlString: string)

@@ -1,13 +1,10 @@
 import { Author } from './author';
 import { Parser } from './parser';
-import { Track } from './track';
 import { Activity } from './activity';
 
 export class TrainingFile {
-
-    public author: Author;
-    public track: Track;
-    public activities: Activity[];
+    public Author: Author;
+    public Activities: Activity[];
     public tcx_filename: string = "";
     public loadedFrom: string;
     public parseSuccessful: boolean;
@@ -46,7 +43,7 @@ export class TrainingFile {
         let trackNr: number[] = [];
 
         let startTimeMs = 0;
-        for (var activity of this.activities) {
+        for (var activity of this.Activities) {
             for (var lap of activity.Laps) {
                 if (startTimeMs === 0) {
                     startTimeMs = new Date(Date.parse(lap.StartTime)).getTime();
@@ -105,7 +102,7 @@ export class TrainingFile {
 
 
     public summaryObject() {
-        let activityCount: number = this.activities.length;
+        let activityCount: number = this.Activities.length;
         let lapCount: number = 0;
         let trackCount: number = 0;
         let trackpointCount: number = 0;
@@ -122,26 +119,33 @@ export class TrainingFile {
         let creatorName: string = '';       // assume only one device will create a single tcx file with activities
         let creatorVersion: string = '';
         let creatorBuild: string = '';
-        let authorName: string = this.author.Name;
-        let authorVersion: string = `${this.author.Build.Version.VersionMajor}.${this.author.Build.Version.VersionMinor}`;
-        let authorBuild: string = `${this.author.Build.Version.BuildMajor}.${this.author.Build.Version.BuildMinor}`;
+        let authorName: string = this.Author.Name;
+        let authorVersion: string = '';
+        let authorBuild: string = '';
+        let maxHeartRateBpmParsed: number = 0;
+        if (this.Author.Build) {
+            authorVersion = `${this.Author.Build.Version.VersionMajor}.${this.Author.Build.Version.VersionMinor}`;
+            authorBuild = `${this.Author.Build.Version.BuildMajor}.${this.Author.Build.Version.BuildMinor}`;
+        }
 
-        for (var activity of this.activities) {
+        for (var activity of this.Activities) {
             lapCount += activity.Laps.length;
             if (!sportArray.includes(activity.Sport)) {
                 sportArray.push(activity.Sport);
             }
             if (activity.Creator) {
                 creatorName = activity.Creator.Name;
-                creatorVersion = `${activity.Creator.Version.VersionMajor}.${activity.Creator.Version.VersionMinor}`;
-                creatorBuild = `${activity.Creator.Version.BuildMajor}.${activity.Creator.Version.BuildMinor}`;
+                if (activity.Creator.Version) {
+                    creatorVersion = `${activity.Creator.Version.VersionMajor}.${activity.Creator.Version.VersionMinor}`;
+                    creatorBuild = `${activity.Creator.Version.BuildMajor}.${activity.Creator.Version.BuildMinor}`;
+                }
             }
             for (var lap of activity.Laps) {
                 if (startTimeISO === '' && lap.StartTime) {
                     startTimeISO = lap.StartTime;
                 }
                 totalTimeSeconds += lap.TotalTimeSeconds;
-                totalDistanceMeters += lap.DistanceMeters;
+                totalDistanceMeters += Number(lap.DistanceMeters);  // in the Suunto test file the first was a string
                 totalCalories += lap.TotalTimeSeconds;
                 maximumSpeed = (lap.MaximumSpeed > maximumSpeed) ? lap.MaximumSpeed : maximumSpeed;
                 if (lap.MaximumHeartRateBpm && lap.MaximumHeartRateBpm.Value > maxHeartRateBpm) {
@@ -158,6 +162,9 @@ export class TrainingFile {
                         if (trackpoint.HeartRateBpm) {
                             avgHeartRateBpmSum += trackpoint.HeartRateBpm.Value;
                             avgHeartRateBpmCount++;
+                            if (trackpoint.HeartRateBpm.Value > maxHeartRateBpmParsed) {
+                                maxHeartRateBpmParsed = trackpoint.HeartRateBpm.Value;
+                            }
                         }
                     }
                 }
@@ -165,6 +172,11 @@ export class TrainingFile {
         }
         let avgHeartRateBpm: number = avgHeartRateBpmCount > 0 ? avgHeartRateBpmSum / avgHeartRateBpmCount : 0;
         let sport: string = sportArray.join();
+
+        // fal back on max detected heartrate while parsing trackpoints if no max was defined in the xml for the laps
+        if (maxHeartRateBpm === 0) {
+            maxHeartRateBpm = maxHeartRateBpmParsed;
+        }
 
         return {
             startTimeISO,
@@ -193,11 +205,11 @@ export class TrainingFile {
     public summaryText(): string {
         let summary: string = '###### Trainingfile Summary ######\n';
 
-        for (var act of this.activities) {
+        for (var act of this.Activities) {
             summary += act.summaryText();
         }
 
-        summary += this.author.summaryText();
+        summary += this.Author.summaryText();
         return summary;
     }
 

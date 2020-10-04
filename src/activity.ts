@@ -29,7 +29,6 @@ export class Activity {
     public parseProperties() {
         if (this.attr) {
             Object.entries(this.attr).forEach(([rootkey, rootvalue]) => {
-                // console.log(`key: ${rootkey}, value:${rootvalue}`);
                 if (rootkey.endsWith('Sport')) {
                     this.Sport = <string>rootvalue;
                 } else {
@@ -49,7 +48,10 @@ export class Activity {
             summary += `   Sport: Not found!\n`;
         }
         if (this.Creator) {
-            summary += `   Creator: ${this.Creator.Name}, Version ${this.Creator.Version.VersionMajor}.${this.Creator.Version.VersionMinor}, build ${this.Creator.Version.BuildMajor}.${this.Creator.Version.BuildMajor}\n`;
+            summary += `   Creator name: ${this.Creator.Name}\n`;
+        }
+        if (this.Creator && this.Creator.Version) {
+            summary += `   Creator version: ${this.Creator.Version.VersionMajor}.${this.Creator.Version.VersionMinor}, build ${this.Creator.Version.BuildMajor}.${this.Creator.Version.BuildMajor} \n`;
         }
         for (var lap of this.Laps) {
             for (var track of lap.Tracks) {
