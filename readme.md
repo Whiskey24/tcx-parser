@@ -67,7 +67,7 @@ TrainingFile also provides a `timeSeriesData()` function that will return an obj
 
 | key                   | value type | description                                     | example                  |
 | --------------------- | ---------- | ----------------------------------------------- | ------------------------ |
-| timeValue             | string     | ISO Time value                                  | abc                      |
+| timeValue             | string     | ISO Time value                                  | 2020-10-03T11:31:59.000Z |
 | bpmValue              | number     | heart beat value                                | 110                      |
 | timeElapsedInMS       | number     | time elasped in ms since first trackpoint       | 1000                     |
 | timeElapsedSinceEpoch | string     | time elapsed from epoch in ISO time format      | 1970-01-01T00:00:01.000Z |
